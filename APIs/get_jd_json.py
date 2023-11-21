@@ -55,14 +55,14 @@ async def get_jd_json(request: jdRequest):
     # 각 Chunk 단위의 템플릿
     template = '''채용공고: {text}
 
-    채용공고에서 다음과 같은 정보를 추출해. 정보가 없다면 "NULL"으로 표시해:
+    채용공고에서 다음과 같은 정보를 추출해. 정보가 없다면 "NULL"으로 표시해. 예외로 "comment"는 채용공고에서 추출하지말고 의견을 작성해.:
     {format_instructions}
     '''
 
     # 전체 문서(혹은 전체 Chunk)에 대한 지시(instruct) 정의
     combine_template = '''채용공고: {text}
 
-    채용공고에서 NULL은 비어있는 정보야. 채용공고에서 다음과 같은 정보를 추출해. 정보가 없다면 "수집중.."으로 표시해:
+    채용공고에서 NULL은 비어있는 정보야. 채용공고에서 다음과 같은 정보를 추출해. 정보가 없다면 "수집중.."으로 표시해. 예외로 "comment"는 채용공고에서 추출하지말고 의견을 작성해.:
     {format_instructions}
     '''
 
@@ -77,7 +77,7 @@ async def get_jd_json(request: jdRequest):
         ResponseSchema(name="team_name", description="채용공고에 작성된 팀의 이름"),
         ResponseSchema(name="keyword", description="채용공고에 작성된 업계와 직무에 대해 유사하고 관련한 키워드들을 list 형태로 추출. 키워드의 예시로는 데이팅앱, 매칭, IT, 소셜 매칭, 플랫폼, 엔터, 크리에이터, 팬덤 플랫폼, 콘텐츠, 상품, 온오프라인 통합, 커뮤니티, 콘텐츠 기획제작, 크리에이터 B2B, 병의원, 치의과, 기공소,  B2B, 글로벌, B2B, 초기전략, 웹툰, 콘텐츠, 글로벌, 이커머스, 서비스 기획, Web, App, Admin, 동남아시아, 중동아시아, 여성유저, 심리상담, 콘텐츠, 병의원, 멘탈헬스케어, 디지털마케팅, google, meta, 심리상담, 콘텐츠 등과 같이 직무 및 업계에 관한 단어들"),
         ResponseSchema(name="process", description="채용공고에 작성된 지원 절차를 불렛포인트 형식으로 작성"),
-        ResponseSchema(name="documents", description="채용공고에 작성된 제출 필요 지원 서류들을 list 형태로 추출. 지원 서류의 예시로는 경력기술서, 이력서, 포트폴리오, 자기소개서, 직무 과제"),
+        ResponseSchema(name="documents", description="채용공고에 작성된 지원 서류들을 list 형태로 모두 추출. 지원 서류의 예시로는 '경력기술서', '이력서', '포트폴리오', '자기소개서', '직무 과제' 중 하나의 단어."),
         ResponseSchema(name="main_duty", description="채용공고에 작성된 해당 직무의 주요업무를 불렛포인트 형식으로 작성"),
         ResponseSchema(name="qualifications", description="채용공고에 작성된 자격요건을 불렛포인트 형식으로 작성"),
         ResponseSchema(name="preferred", description="채용공고에 작성된 우대사항을 불렛포인트 형식으로 작성"),
